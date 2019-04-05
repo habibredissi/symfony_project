@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SecurityController!{% endblock %}
+
+{% block body %}
+
+<h1>Your profile</h1>
+{{ form_start(form) }}
+{{ form_row(form.username, {'label':'Your username', 'attr': {'placeholder':'Choose your username'}}) }}
+{{ form_row(form.email, {'label':'Your email', 'attr': {'placeholder':'you@email.com'}}) }}
+{{ form_row(form.password, {'label':'Your password', 'attr': {'placeholder':'Choose a password'}}) }}
+{{ form_row(form.confirm_password, {'label':'Password confirmation', 'attr': {'placeholder':'Confirm your password'}})
+}}
+<button class="btn btn-success my-1" type="submit">Update</button>
+{{ form_end(form) }}
+
+<a href="/profile/delete/{{user.id}}" class="btn btn-danger my-3">Delete account</a>
+
+{% endblock %}

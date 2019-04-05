@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ListeController!{% endblock %}
+
+{% block body %}
+{% if edit %}
+<h1>Edit my list</h1>
+{% else %}
+<h1>Create a list</h1>
+{% endif %}
+{{ form_start(form) }}
+{{ form_row(form.title, {'label':'Your title', 'attr': {'placeholder':'Choose a name for your list'}}) }}
+{{ form_row(form.description, {'label':'Your description', 'attr': {'placeholder':'Your description (optional)'}}) }}
+<button class="btn btn-success" type="submit">
+{% if edit %}
+Edit my list
+{% else %}
+Create a list
+{% endif %}
+</button>
+{{ form_end(form) }}
+
+{% endblock %}

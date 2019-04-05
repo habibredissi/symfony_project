@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SearchController!{% endblock %}
+
+{% block body %}
+<form action="#" method="post">
+    <div class="form-group col-md-12">
+        <input name="search" class="form-control form-control-lg" type="text" placeholder="What do you search ?">
+    </div>
+    <div class="input-group col-md-12">
+        <select class="custom-select" name="option">
+            <option selected="true" disabled>Open this select menu</option>
+            <option value="1">Movie title</option>
+            <option value="2">Released year</option>
+            <option disabled>By Genre</option>
+            {% for genre in genres %}
+            <option value="{{genre.id}}">{{genre.name}}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="form-group col-md-12 my-4">
+        <button class="btn btn-primary btn-lg" id="btn" name="btn" type="submit">Search</button>
+    </div>
+</form>
+<hr>
+{% if movies is not null %}
+{% for movie in movies %}
+<div class="card my-4">
+    <div class="card-body">
+        <img src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}" style="float:left;max-height: 250px" alt=""
+            class="mx-2">
+        <h4 class="card-title">{{movie.title}}</h4>
+        <h6 class="card-subtitle mb-2 text-muted">Note: {{movie.vote_average}} - Release Year : {{
+            movie.release_date|date("Y") }}</h6>
+        <p class="card-text">{{movie.overview}}</p>
+        <a href="{{ path('showMovie', {'id': movie.id}) }}" class="btn btn-outline-info">More Info</a>
+        <a href="{{ path('favoriteMovie', {'id': movie.id}) }}" class="btn btn-outline-warning">&#9733; Favorite</a>
+
+        <form action="{{ path('addToList') }}" method="POST" id="select-liste-movie">
+            <div class="form-group select-liste-movie">
+                <select class="custom-select" name="listId">
+                    <option selected="true" disabled="disabled">-- Select Your List--</option>
+                    {% for liste in listes %}
+                    <option value="{{liste.id}}">{{liste.title}}</option>
+                    {% endfor %}
+                </select>
+                <input name="movieId" type="hidden" value="{{movie.id}}">
+            </div>
+            <button type="submit" class="btn btn-outline-success mx-2">Add to my list</button>
+        </form>
+
+    </div>
+</div>
+{% endfor %}
+{% endif %}
+{% endblock %}

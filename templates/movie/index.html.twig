@@ -1,0 +1,65 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MovieController!{% endblock %}
+
+{% block body %}
+{% for message in app.flashes('warning') %}
+<div class="alert alert-warning" role="alert">
+  {{ message }}
+</div>
+{% endfor %}
+{% for movie in movies %}
+<div class="card my-4">
+  <div class="card-body">
+    <img src="https://image.tmdb.org/t/p/w500/{{movie.poster_path}}" style="float:left;max-height: 250px" alt="" class="mx-2">
+    <h4 class="card-title">{{movie.title}}</h4>
+    <h6 class="card-subtitle mb-2 text-muted">Note: {{movie.vote_average}} - Release Year : {{
+      movie.release_date|date("Y") }}</h6>
+    <p class="card-text">{{movie.overview}}</p>
+    <a href="{{ path('showMovie', {'id': movie.id}) }}" class="btn btn-outline-info">More Info</a>
+    <a href="{{ path('favoriteMovie', {'id': movie.id}) }}" class="btn btn-outline-warning">&#9733; Favorite</a>
+
+    <form action="{{ path('addToList') }}" method="POST" id="select-liste-movie">
+      <div class="form-group select-liste-movie">
+        <select class="custom-select" name="listId">
+          <option selected="true" disabled="disabled">-- Select Your List--</option>
+          {% for liste in listes %}
+          <option value="{{liste.id}}">{{liste.title}}</option>
+          {% endfor %}
+        </select>
+        <input name="movieId" type="hidden" value="{{movie.id}}">
+      </div>
+      <button type="submit" class="btn btn-outline-success mx-2">Add to my list</button>
+    </form>
+    
+  </div>
+</div>
+{% endfor %}
+
+<div class="justify-content-center">
+  <ul class="pagination pagination-lg justify-content-center">
+    <li class="page-item">
+      <a class="page-link" href="{{ path('moviePage', {'page': previousPage}) }}">&laquo;</a>
+    </li>
+    <li class="page-item {active}">
+      <a class="page-link" href="{{ path('moviePage', {'page': 1}) }}">1</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="{{ path('moviePage', {'page': 2}) }}">2</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="{{ path('moviePage', {'page': 3}) }}">3</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="{{ path('moviePage', {'page': 4}) }}">4</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="{{ path('moviePage', {'page': 5}) }}">5</a>
+    </li>
+    <li class="page-item">
+      <a class="page-link" href="{{ path('moviePage', {'page': nextPage}) }}">&raquo;</a>
+    </li>
+  </ul>
+</div>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ListeController!{% endblock %}
+
+{% block body %}
+<h1>My Lists</h1>
+{% if listes|length == 0 %}
+<div class="alert alert-dismissible alert-secondary">
+  <button type="button" class="close" data-dismiss="alert">&times;</button>
+  <strong>Sorry!</strong> There is no list yet! <a href="{{ path('create_liste') }}" class="alert-link">Create your first list here</a>.
+</div>
+{% endif %}
+{% for liste in listes %}
+<div class="card my-5">
+  <div class="card-header font-weight-bold text-capitalize">
+    {{liste.title}}
+  </div>
+  <div class="card-body">
+    <h5 class="card-title">Description</h5>
+    <p class="card-text">{{liste.description}}</p>
+    <a href="{{ path('viewList', {'id': liste.id}) }}" class="btn btn-primary">View movies in this list</a>
+    <a href="{{ path('edit_liste', {'id': liste.id}) }}" class="btn btn-success">Edit list</a>
+    <a href="{{ path('liste_delete', {'id': liste.id}) }}" class="btn btn-danger">Delete list</a>
+  </div>
+</div>
+{% endfor %}
+{% endblock %}

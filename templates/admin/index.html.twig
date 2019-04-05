@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello Admin{% endblock %}
+
+{% block body %}
+<h1>Favorite summary</h1>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Title</th>
+      <th scope="col">Note</th>
+      <th scope="col">Number of times</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for favorite in favorites %}
+    <tr>
+      <td>{{favorite['0'].title}}</td>
+      <td>{{favorite['0'].note}}</td>
+      <td>{{favorite.c}}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
+<hr>
+<h1>Users</h1>
+{% for user in users %}
+<div class="col-sm-12 my-4">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">{{user.username}}</h5>
+            <p class="card-text">{{user.email}}</p>
+            <a href="{{ path('profile', {'id': user.id}) }}" class="btn btn-primary">Edit user profile</a>
+            {% if not user.banned %}
+            <a href="{{ path('ban_user', {'id': user.id}) }}" class="btn btn-danger">Ban user</a>
+            {% else %}
+            <a href="{{ path('unban_user', {'id': user.id}) }}" class="btn btn-success">Unban user</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+{% endblock %}

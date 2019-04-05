@@ -1,0 +1,91 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello MovieController!{% endblock %}
+{% block body %}
+<link rel="stylesheet" href="{{ asset('dist/css/styles.css') }}" />
+<style>
+    .container {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.hero:before {
+    background: url("https://image.tmdb.org/t/p/w500/{{ movie.backdrop_path }}") no-repeat center center; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+</style>
+<div class="movie-card">
+
+    <div class="containerCustom">
+
+        <a href="#"><img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" alt="cover" class="cover" /></a>
+
+        <div class="hero">
+
+            <div class="details">
+
+                <div class="title1">{{ movie.title }} <span class="badge badge-pill badge-primary">{{movie.vote_average}}</span></div>
+
+                <div class="title2">{{ movie.tagline }}</div>
+
+                <a href="{{ path('favoriteMovie', {'id': movie.id}) }}" class="btn btn-warning">&#9733; Favorite</a>
+
+                {# <span class="likes">109 likes</span> #}
+
+            </div> <!-- end details -->
+
+        </div> <!-- end hero -->
+
+        <div class="description">
+
+            <div class="column1">
+                {% for genre in movie.genres %}
+                <span class="tag">{{genre.name}}</span>
+                {% endfor %}
+            </div> <!-- end column1 -->
+
+            <div class="column2">
+                <h6 class="text-secondary">
+                    <strong>Duration:</strong> {{movie.runtime}} min | <strong>Release:</strong> {{
+                    movie.release_date|date("Y")
+                    }}
+                </h6>
+                <h6 class="text-secondary">
+                    <strong>Countries:</strong>
+                    {% for production in movie.production_countries %}
+                    {{production.name}}
+                    {% endfor %}
+                </h6>
+
+                <h6 class="text-secondary">
+                    <strong>Languages:</strong>
+                    {% for language in movie.spoken_languages %}
+                    {{language.name}}
+                    {% endfor %}
+                </h6>
+
+                <p>{{ movie.overview }}</p>
+
+                <form action="{{ path('addToList') }}" method="POST" id="select-liste-movie">
+                    <div class="form-group select-liste-movie">
+                        <select class="custom-select" name="listId">
+                            <option selected="true" disabled="disabled">-- Select Your List--</option>
+                            {% for liste in listes %}
+                            <option value="{{liste.id}}">{{liste.title}}</option>
+                            {% endfor %}
+                        </select>
+                        <input name="movieId" type="hidden" value="{{movie.id}}">
+                    </div>
+                    <button type="submit" class="btn btn-success mx-2">Add to my list</button>
+                </form>
+
+            </div> <!-- end column2 -->
+        </div> <!-- end description -->
+
+
+    </div> <!-- end container -->
+</div> <!-- end movie-card -->
+{% endblock %}

@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello FavoriteController!{% endblock %}
+
+{% block body %}
+	
+
+<h1>My list : {{ movies[0].listId.title }}</h1>
+{% for movie in movies %}
+<div class="card my-4">
+  <div class="card-body">
+    <img src="{{movie.image}}" style="float:left;max-height: 250px" alt="" class="mx-2">
+    <h4 class="card-title">{{movie.title}}</h4>
+    <h6 class="card-subtitle mb-2 text-muted">Note: {{movie.note}} - Release Year : {{
+      movie.year|date("Y") }}</h6>
+    <p class="card-text">{{movie.overview}}</p>
+    <a href="{{ path('showMovie', {'id': movie.apiId}) }}" class="btn btn-outline-info">More Info</a>
+    <a href="{{ path('deleteMovieFromList', {'id': movie.id}) }}" class="btn btn-outline-danger">Remove from my list</a >
+    
+  </div>
+</div>
+{% endfor %}
+{% endblock %}
